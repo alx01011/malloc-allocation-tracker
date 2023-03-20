@@ -1,9 +1,10 @@
 # malloc-allocation-tracker
-A custom malloc wrapper that keeps track of allocations in an allocation list.
+A custom malloc wrapper that keeps track of allocations in an allocation list
 
 ## Why?
 
-I was testing an application for memory leaks, and sadly I was not able to hook it to valgrind or the leak sanitizer.
+I was testing an application for memory leaks, and sadly I was not able to hook it to valgrind or the leak sanitizer
+So I made my own
 
 ## Building
     - Run `make;make clean`
@@ -16,6 +17,6 @@ I was testing an application for memory leaks, and sadly I was not able to hook 
 
 ## Issues
     - While the implementation is thread-safe, it is **really** slow because of the global mutex lock
-    - Instead of the regular libc `malloc`, `mmap` is used in the list functions, perhaps there is a way to directly call default malloc, but I haven't found the time to look it up.
+    - Instead of the regular libc `malloc`, `mmap` is used in the list functions
 
     
