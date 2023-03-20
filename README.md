@@ -16,7 +16,7 @@ So I made my own
     * See the `test` directory for working examples
 
 ## Issues
-    * While the implementation is thread-safe, it is **really** slow because of the global mutex lock
-    * Instead of the regular libc `malloc`, `mmap` is used in the list functions
+* While the implementation is thread-safe, it is **really** slow because of the global mutex lock
+* Instead of the regular libc `malloc`, `mmap` is used in the list functions
 
     
