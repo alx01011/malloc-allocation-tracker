@@ -23,8 +23,6 @@ SOFTWARE.
 
 ******************************************************************************/
 
-
-
 /*
  * alloc_list.h
  * Author: Alexandros Antonakakis <csd4802>
@@ -38,8 +36,8 @@ SOFTWARE.
 #include <stddef.h>
 
 typedef struct alloc_list {
-  void              *ptr;  /* returned malloc address */
-  size_t             size; /* size allocated */
+  void  *ptr;  /* returned malloc address */
+  size_t size; /* size allocated */
 
   struct alloc_list *next;
 } alloc_list;

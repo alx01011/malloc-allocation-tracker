@@ -23,24 +23,22 @@ SOFTWARE.
 
 ******************************************************************************/
 
-
-
 /*
-    *  alloc_list.c
-    *  Author: Alexandros Antonakakis
-    *  Created on: 18-03-2023
-    *  Description: Implementation of a linked list for keeping track of
-    *                allocations
-*/
+ *  alloc_list.c
+ *  Author: Alexandros Antonakakis
+ *  Created on: 18-03-2023
+ *  Description: Implementation of a linked list for keeping track of
+ *                allocations
+ */
 
 #include "alloc_list.h"
 
+#include <errno.h>
+#include <pthread.h>
 #include <stdio.h>
 #include <stdlib.h>
-#include <errno.h>
 #include <string.h>
 #include <sys/mman.h>
-#include <pthread.h>
 
 /* define a global allocs list variable */
 
@@ -57,13 +55,14 @@ alloc_list *alloc_list_add(alloc_list *list, void *ptr, size_t size) {
                          MAP_PRIVATE | MAP_ANONYMOUS, -1, 0);
 
   if (new == MAP_FAILED) {
-    fprintf(stderr, "error: mmap %s in function %s\n)", strerror(errno), __func__);
+    fprintf(stderr, "error: mmap %s in function %s\n)", strerror(errno),
+            __func__);
     exit(EXIT_FAILURE);
   }
 
-  new->ptr        = ptr;
-  new->next       = list;
-  new->size       = size;
+  new->ptr  = ptr;
+  new->next = list;
+  new->size = size;
   return new;
 }
 
@@ -85,8 +84,9 @@ alloc_list *alloc_list_remove(alloc_list *list, void *ptr) {
     list = cur->next;
   }
 
-  if(munmap(cur, sizeof(alloc_list))) {
-    fprintf(stderr, "error: munmap %s in function %s)", strerror(errno), __func__);
+  if (munmap(cur, sizeof(alloc_list))) {
+    fprintf(stderr, "error: munmap %s in function %s)", strerror(errno),
+            __func__);
     exit(EXIT_FAILURE);
   }
 
@@ -100,8 +100,9 @@ void alloc_list_destroy(alloc_list *list) {
 
   while (cur) {
     next = cur->next;
-    if(munmap(cur, sizeof(alloc_list))) {
-      fprintf(stderr, "error: munmap %s in function %s)", strerror(errno), __func__);
+    if (munmap(cur, sizeof(alloc_list))) {
+      fprintf(stderr, "error: munmap %s in function %s)", strerror(errno),
+              __func__);
       exit(EXIT_FAILURE);
     }
     cur = next;
@@ -112,11 +113,10 @@ int is_alloc_list_empty(alloc_list *list) {
   return list == NULL; /* means everything was freed */
 }
 
-void print_active_allocations(alloc_list *list) { 
+void print_active_allocations(alloc_list *list) {
   while (list) {
-    fprintf(stderr, "%p with size: %u bytes\n", list->ptr, list->size);
+    fprintf(stderr, "%p with size: %zu bytes\n", list->ptr, list->size);
     fprintf(stderr, "--------------------------------------------\n");
     list = list->next;
-    }
+  }
 }
-

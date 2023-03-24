@@ -37,6 +37,7 @@ SOFTWARE.
 #include <stdio.h>
 #include <stdlib.h>
 #include <unistd.h>
+
 #include "alloc_list.h"
 
 /*
@@ -44,7 +45,6 @@ SOFTWARE.
  *  functions, so we can call them from our custom functions.
  *  We use dlsym to get the address of the original functions.
  */
-
 
 /*
  * dlsym takes a handle to a library and a symbol name and returns
@@ -58,11 +58,12 @@ SOFTWARE.
 extern alloc_list *allocs;
 
 void *malloc(size_t s) {
-  static  void *(*libc_malloc)(size_t) = 0;
-  void *p = 0;
+  static void *(*libc_malloc)(size_t) = 0;
+  void *p                             = 0;
 
   if (!libc_malloc) {
     libc_malloc = dlsym(RTLD_NEXT, "malloc");
+    fprintf(stderr, "malloc init\n");
     if (!libc_malloc) {
       const char *error = dlerror();
       write(STDERR_FILENO, error, sizeof(error));
@@ -78,7 +79,6 @@ void *malloc(size_t s) {
 }
 
 void *calloc(size_t n, size_t s) {
-
   static void *(*libc_calloc)(size_t, size_t) = 0;
 
   void *p = 0;
@@ -130,7 +130,7 @@ void *realloc(void *p, size_t s) {
 }
 
 void free(void *p) {
-    static void (*libc_free)(void *) = 0;
+  static void (*libc_free)(void *) = 0;
 
   if (!libc_free) {
     libc_free = dlsym(RTLD_NEXT, "free");
