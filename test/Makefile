@@ -10,7 +10,7 @@ LDFLAGS := -ldl
 .PHONY: sequential clean
 
 sequential: sequential.c libmallocwrap.a
-	$(CC) $(CFLAGS) $(LDFLAGS) -o $@ $< libmallocwrap.a
+	$(CC) $(CFLAGS) -o $@ $< libmallocwrap.a $(LDFLAGS)
 
 clean:
 	rm -f *.o *.so parallel sequential
