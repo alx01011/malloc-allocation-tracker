@@ -1,4 +1,3 @@
-
 #  MIT License
 
 # Copyright (c) 2023 Alexandros Emmanouil Antonakakis <antonakakis1@gmail.com>
@@ -27,15 +26,14 @@
 # Description: Makefile for the malloc wrapper library
 
 CC := gcc
-CFLAGS := -Wall -pedantic -I./include
-LDFLAGS := -pthread
+CFLAGS := -Wall -I./include
 
 SRC := $(wildcard src/*.c)
 HEADERS := $(wildcard include/*.h)
 
-.PHONY: all clean check
+.PHONY: all clean check build compile
 
-all: check build
+all: check build clean
 
 check:
 ifeq ($(CC), 0)
@@ -43,10 +41,10 @@ ifeq ($(CC), 0)
 endif
 
 build: compile
-	$(CC) -shared -o libmallocwrapper.so *.o
+	ar -rcs libmallocwrap.a *.o
 
 compile: $(SRC) $(HEADERS)
-	$(CC) $(CFLAGS) -c $(LDFLAGS) $(SRC)
+	$(CC) $(CFLAGS) -c $(SRC)
 
 clean:
-	rm -f *.o
+	rm -f malloc_wrapper.o alloc_list.o

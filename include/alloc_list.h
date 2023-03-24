@@ -35,13 +35,11 @@ SOFTWARE.
 #ifndef ALLOC_LIST_H
 #define ALLOC_LIST_H
 
-#include <pthread.h>
 #include <stddef.h>
 
 typedef struct alloc_list {
   void              *ptr;  /* returned malloc address */
   size_t             size; /* size allocated */
-  pthread_t          tid;  /* thread id */
 
   struct alloc_list *next;
 } alloc_list;

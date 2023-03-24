@@ -4,17 +4,13 @@
 
 CC := gcc
 CFLAGS := -I../include
-LDFLAGS := -L. -pthread
+LDFLAGS := -ldl
 
-# gcc parallel.c -pthread -L. -lmallocwrapper
+# gcc parallel.c libmalloc.a
+.PHONY: sequential clean
 
-.PHONY: parallel sequential clean
-
-parallel: parallel.c libmallocwrapper.so
-	$(CC) $(CFLAGS) $(LDFLAGS) -o $@ $< -lmallocwrapper
-
-sequential: sequential.c libmallocwrapper.so
-	$(CC) $(CFLAGS) $(LDFLAGS) -o $@ $< -lmallocwrapper
+sequential: sequential.c libmallocwrap.a
+	$(CC) $(CFLAGS) $(LDFLAGS) -o $@ $< libmallocwrap.a
 
 clean:
 	rm -f *.o *.so parallel sequential

@@ -64,7 +64,6 @@ alloc_list *alloc_list_add(alloc_list *list, void *ptr, size_t size) {
   new->ptr        = ptr;
   new->next       = list;
   new->size       = size;
-  new->tid        = pthread_self();
   return new;
 }
 
@@ -115,11 +114,8 @@ int is_alloc_list_empty(alloc_list *list) {
 
 void print_active_allocations(alloc_list *list) { 
   while (list) {
-    fprintf(stderr, "%p with size: %lu bytes, tid: ", list->ptr, list->size);
-    for (size_t i = sizeof(size_t); i; --i)
-        fprintf(stderr, "%02x", *(((unsigned char*) &list->tid) + i - 1));
-
-    fputc('\n', stderr);
+    fprintf(stderr, "%p with size: %u bytes\n", list->ptr, list->size);
+    fprintf(stderr, "--------------------------------------------\n");
     list = list->next;
     }
 }
