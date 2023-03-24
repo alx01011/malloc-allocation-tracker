@@ -6,9 +6,14 @@ A custom malloc wrapper that keeps track of allocations in an allocation list
 I was testing an application for memory leaks, and sadly I was not able to hook it to valgrind or the leak sanitizer
 So I made my own
 
+## Requirements
+* gcc
+* make
+* ar
+
 ## Building
 * Run `make`
-* If all works out, the shared object `libmallocwrap.a` will be created
+* If all works out, the static library `libmallocwrap.a` will be created
 
 ## Using
 * You will have to include `alloc_list.h` in order to be able to access to allocation list
