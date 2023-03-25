@@ -5,6 +5,7 @@ A custom malloc wrapper that keeps track of allocations in an allocation list
 
 I was testing an application for memory leaks, and sadly I was not able to hook it to valgrind or the leak sanitizer
 So I made my own
+The idea behind it was that any program that uses malloc, can just be recompiles along with this static library, without the need to include or define anything
 
 ## Requirements
 * gcc
